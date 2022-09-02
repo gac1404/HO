@@ -3,18 +3,7 @@
 #include <QQmlContext>
 
 #include <uiconnector.h>
-#include <boost/asio.hpp>
 #include <mqtt/async_client.h>
-
-void connection_handler(const std::string& cause)
-{
-    std::cout << "connection_handler" << std::endl;
-}
-/** Handler type for when a disconnect packet is received */
-void disconnected_handler(const mqtt::properties&, mqtt::ReasonCode)
-{
-    std::cout << "disconnected_handler" << std::endl;
-}
 
 int main(int argc, char *argv[])
 {

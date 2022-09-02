@@ -38,9 +38,9 @@ Window {
 
     SettingButton
     {
-        x: 50
-        y: 50
-        width: 150
-        height: 150
+        x: mainWindow.width  - ( width  + 10 )
+        y: mainWindow.height - ( height + 10 )
+        width: 50
+        height: 50
     }
 }

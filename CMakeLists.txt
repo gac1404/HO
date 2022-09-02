@@ -14,12 +14,9 @@ file(GLOB_RECURSE srcs
     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
 )
 
-file(GLOB_RECURSE pahoLibs
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/eclipse-paho-mqtt-c-win64-1.3.9/lib/*.lib"
-)
+file(GLOB_RECURSE "mqttLib"
+    "${CMAKE_CURRENT_SOURCE_DIR}/external/MqttLib/lib/*.lib"
 
-file(GLOB_RECURSE images
-    ./images/*.png
 )
 
 qt_add_executable(appHO ${srcs})
@@ -29,6 +26,7 @@ qt_add_resources(appHO "images"
     PREFIX "/"
     FILES
           ./images/setting_off.png
+          ./images/setting_selected.png
       )
 
 qt_add_qml_module(appHO
@@ -51,8 +49,8 @@ set_target_properties(appHO PROPERTIES
 target_link_libraries(appHO PRIVATE
       Qt6::Quick
       Qt6::QuickControls2
-      ${pahoLibs}
-      ${CMAKE_CURRENT_SOURCE_DIR}/external/paho-mqtt-cpp/lib/paho-mqttpp3-static.lib
+      ${mqttLib}
+
 )
 
 
@@ -60,12 +58,12 @@ target_include_directories(appHO PUBLIC
       ${CMAKE_CURRENT_SOURCE_DIR}
       ${CMAKE_CURRENT_SOURCE_DIR}/include
       ${PROJECT_BINARY_DIR}
+     "${CMAKE_CURRENT_SOURCE_DIR}/external/MqttLib/include/mqttC"
+     "${CMAKE_CURRENT_SOURCE_DIR}/external/MqttLib/include/mqttCpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/external/boost_1_80_0"
-     "${CMAKE_CURRENT_SOURCE_DIR}/external/eclipse-paho-mqtt-c-win64-1.3.9/include"
-      ${CMAKE_CURRENT_SOURCE_DIR}/external/paho-mqtt-cpp/include/
-
 )
 
 install(TARGETS appHO
     BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
