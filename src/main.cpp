@@ -3,35 +3,46 @@
 #include <QQmlContext>
 
 #include <uiconnector.h>
-//#include <mqttmenager.h>
 #include <boost/asio.hpp>
-//#include <MQTTClient.h>
-//#include <MQTTAsync.h>
 #include <mqtt/async_client.h>
 
-//static int c = 0;
-//void connected(void* context, char* cause)
-//{
-//    std::cout << "connected" << std::endl;
-//    c++;
-//}
-
-//void onSuccess(void* context, MQTTAsync_successData* response)
-//{
-//    std::cout << "onSuccess" << std::endl;
-//}
-
-//void connlost(void *context, char *cause)
-//{
-//    printf("\nConnection lost\n");
-//    printf("     cause: %s\n", cause);
-//}
+void connection_handler(const std::string& cause)
+{
+    std::cout << "connection_handler" << std::endl;
+}
+/** Handler type for when a disconnect packet is received */
+void disconnected_handler(const mqtt::properties&, mqtt::ReasonCode)
+{
+    std::cout << "disconnected_handler" << std::endl;
+}
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    mqtt::async_client a();
+    mqtt::async_client client("tcp://test.mosquitto.org:1883", "testApAG", "./");
+    auto connOpts = mqtt::connect_options_builder()
+        .clean_session()
+        .finalize();
+
+    client.set_connection_lost_handler([](const std::string& str) {
+        std::cout << "*** Connection Lost  ***" << str << std::endl;
+    });
+
+    client.set_connected_handler([](const std::string& cause){
+        std::cout << "*** set_connected_handler  ***" << cause << std::endl;
+    });
+
+    auto conntok = client.connect(connOpts);
+
+    conntok->wait();
+
+    //auto ret = conntok->get_connect_response();
+
+    std::cout << "connected???" << std::endl;
+
+
+
 
     UiConnector uiConnector;
 
@@ -48,5 +59,5 @@ int main(int argc, char *argv[])
 
 
 
-    return 0;//app.exec();
+    return app.exec();
 }
