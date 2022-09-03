@@ -27,6 +27,8 @@ qt_add_resources(appHO "images"
     FILES
           ./images/setting_off.png
           ./images/setting_selected.png
+          ./images/connection_status_connected.png
+          ./images/connection_status_disconnected.png
       )
 
 qt_add_qml_module(appHO
@@ -36,6 +38,7 @@ qt_add_qml_module(appHO
         ./qml/main.qml
         ./qml/main_setting.qml
         ./qml/SettingButton.qml
+        ./qml/ConnectionStateControl.qml
 )
 
 set_target_properties(appHO PROPERTIES

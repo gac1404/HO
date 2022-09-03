@@ -43,4 +43,11 @@ Window {
         width: 50
         height: 50
     }
+
+    ConnectionStateControl{
+        x: mainWindow.width  - ( 2*width + 20 )
+        y: mainWindow.height - (  height + 10 )
+        width: 50
+        height: 50
+    }
 }
