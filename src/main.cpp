@@ -1,13 +1,27 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
+#include <QQmlEngine>
 #include <uiconnector.h>
 #include <mqtt/async_client.h>
 
+#include <windows.h>
+#include <string>
+#include <thread>
+
+void foo()
+{
+
+}
+
+
 int main(int argc, char *argv[])
 {
+    UiConnector uiConnector;
+
     QGuiApplication app(argc, argv);
+
+    //qmlRegisterType<UiConnector>("Adam" ,1 ,0 ," UiConnector"); //not working
 
     mqtt::async_client client("tcp://test.mosquitto.org:1883", "testApAG", "./");
     auto connOpts = mqtt::connect_options_builder()
@@ -25,15 +39,15 @@ int main(int argc, char *argv[])
     auto conntok = client.connect(connOpts);
 
     conntok->wait();
-
     //auto ret = conntok->get_connect_response();
 
     std::cout << "connected???" << std::endl;
 
+    std::thread t1([&](){
+        uiConnector.Dupa();
+    });
 
-
-
-    UiConnector uiConnector;
+    t1.detach();
 
 
     QQmlApplicationEngine engine;
@@ -45,8 +59,7 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-
-
+//    engine.rootContext()->setContextProperty("uiConnector", &uiConnector);
 
     return app.exec();
 }

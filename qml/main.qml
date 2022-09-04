@@ -8,11 +8,40 @@ Window {
     title: qsTr("Home assistant")
     id: mainWindow
 
+//    Connections
+//    {
+//        target: uiConnector
+//        onDupa:{
+//            textField2.text = qsTr("DUPA")
+//        }
+
+//    }
+
     TextField {
-        placeholderText: qsTr("HELLO QT!")
+        id: textField1
+        //placeholderText: qsTr("HELLO QT!")
         x: 100
         y: 80
-        onTextChanged: uiConnector.sampleText = text
+        text: uiConnector.someVar
+        onTextChanged:
+        {
+            uiConnector.sampleText = text
+
+        }
+
+
+    }
+
+    TextField {
+        id: textField2
+        placeholderText: qsTr("HELLO QT!")
+        x: 300
+        y: 80
+        onTextChanged:
+        {
+            text = uiConnector.sampleText
+        }
+
     }
 
     Button
@@ -25,15 +54,11 @@ Window {
 
     Button
     {
+        id: buttonProceed
         text: "Proceed"
         x: 100
         y: 100
-        onClicked:{
-            var component = Qt.createComponent("main_setting.qml")
-            var window2    = component.createObject()
-            window2.show()
-
-        }
+        onClicked: uiConnector.setSomeVar("ABC")
     }
 
     SettingButton
