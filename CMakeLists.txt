@@ -39,6 +39,7 @@ qt_add_qml_module(appHO
         ./qml/main_setting.qml
         ./qml/SettingButton.qml
         ./qml/ConnectionStateControl.qml
+        ./qml/PopUpSettings.qml
 )
 
 set_target_properties(appHO PROPERTIES

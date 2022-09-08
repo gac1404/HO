@@ -18,6 +18,7 @@ Image {
             window2.show()
 
         }
+
     }
 
 }

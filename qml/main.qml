@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+//import UserConnector 1.0
 
 Window {
     width: 640
@@ -8,14 +9,10 @@ Window {
     title: qsTr("Home assistant")
     id: mainWindow
 
-//    Connections
-//    {
-//        target: uiConnector
-//        onDupa:{
-//            textField2.text = qsTr("DUPA")
-//        }
+    Connections{
+        target: mqqtUserClient
+    }
 
-//    }
 
     TextField {
         id: textField1
@@ -28,8 +25,6 @@ Window {
             uiConnector.sampleText = text
 
         }
-
-
     }
 
     TextField {
@@ -39,9 +34,8 @@ Window {
         y: 80
         onTextChanged:
         {
-            text = uiConnector.sampleText
+            //text = uiConnector.sampleText
         }
-
     }
 
     Button
@@ -58,7 +52,9 @@ Window {
         text: "Proceed"
         x: 100
         y: 100
-        onClicked: uiConnector.setSomeVar("ABC")
+        onClicked: {
+            mqqtUserClient.isConnected = !mqqtUserClient.isConnected
+        }
     }
 
     SettingButton
@@ -70,9 +66,19 @@ Window {
     }
 
     ConnectionStateControl{
+        id: connectionControl
         x: mainWindow.width  - ( 2*width + 20 )
         y: mainWindow.height - (  height + 10 )
         width: 50
         height: 50
+        isConnected: mqqtUserClient.isConnected
+        onClicked: popUpSettings.visible = true
     }
+
+    PopUpSettings{
+        id: popUpSettings
+        x: 50
+        y: 50
+    }
+
 }

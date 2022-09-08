@@ -13,11 +13,6 @@ QString UiConnector::sampleText() const {
   return mText;
 }
 
-void UiConnector::callMe()
-{
-    std::cout << "callMe " << std::endl;
-}
-
 QString UiConnector::someVar()
 {
     return m_someVar;
@@ -33,6 +28,12 @@ void UiConnector::setSomeVar(QString str)
     }
 }
 
+void UiConnector::callMe()
+{
+    std::cout << "callMe " << std::endl;
+    emit mqttConnected();
+}
+
 void UiConnector::Dupa()
 {
     int a = 0;
@@ -42,6 +43,7 @@ void UiConnector::Dupa()
         a++;
         Sleep(1000);
         setSomeVar(QString::number(a));
+        //emit mqttConnected();
     }
 
 }

@@ -1,24 +1,20 @@
 #include "mqqtUserClient.h"
+#include <windows.h>
 
-MqqtUserClient::MqqtUserClient(): client(URL, "testApAG", "./")
-{
-    auto connectionOption = mqtt::connect_options_builder()
-        .clean_session()
-        .finalize();
+void MqqtUserClient::run() {
+  while (true) {
+    Sleep(3000);
+    setIsConnected(true);
+    Sleep(3000);
+    setIsConnected(false);
+  }
+}
 
-    client.set_connection_lost_handler([](const std::string& str) {
-        std::cout << "*** Connection Lost  ***" << str << std::endl;
-    });
+bool MqqtUserClient::isConnected() const { return m_isConnected; }
 
-    client.set_connected_handler([](const std::string& cause){
-        std::cout << "*** set_connected_handler  ***" << cause << std::endl;
-    });
-
-//    auto conntok = client.connect(connectionOption);
-
-//    conntok->wait();
-
-
-    std::cout << "connected???" << std::endl;
-
+void MqqtUserClient::setIsConnected(bool isConnected) {
+  if (m_isConnected != isConnected) {
+    m_isConnected = isConnected;
+    emit isConnectedChanged(m_isConnected);
+  }
 }
